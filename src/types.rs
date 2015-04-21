@@ -51,6 +51,7 @@ bitflags!(
 );
 
 #[repr(C)]
+// #[derive(Debug, Copy, Clone)]
 pub enum JackTransportState {
 	  /* the order matters for binary compatibility */
 	  JackTransportStopped = 0,	/**< Transport halted */
@@ -60,12 +61,11 @@ pub enum JackTransportState {
 	  JackTransportStarting = 3,
 }
 
-impl Copy for JackTransportState {}
-
 pub type JackUniqueT = u64;
 pub type JackPositionBitsT = ::libc::c_uint;
 
 #[repr(C,packed)]
+// #[derive(Debug, Copy, Clone)]
 pub struct JackPositionT {
     unique_1: JackUniqueT,
     pub usecs: JackTimeT,
@@ -89,20 +89,17 @@ pub struct JackPositionT {
     unique_2: JackUniqueT,
 }
 
-impl Copy for JackPositionT {}
-
 // midi types
 
 pub type JackMidiDataT = ::libc::c_uchar;
 
 #[repr(C)]
+// #[derive(Debug, Copy, Clone)]
 pub struct JackMidiEvent {
     pub time: JackNframesT,
     pub size: size_t,
     buffer: *mut JackMidiDataT,
 }
-
-impl Copy for JackMidiEvent {}
 
 impl JackMidiEvent {
     pub fn read_data(&self, index: u32) -> JackMidiDataT {

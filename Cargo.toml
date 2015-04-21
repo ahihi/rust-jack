@@ -11,3 +11,8 @@ license = "LGPL-2.1"
 
 [lib]
 name="jack"
+
+[dependencies]
+libc = "0.1.6"
+bitflags = "0.1.1"
+getopts = "0.2.9"

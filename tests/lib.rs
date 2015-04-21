@@ -13,7 +13,7 @@ fn new_client_and_close() {
 #[test]
 fn client_name_size() {
     let size = JackClient::name_size();
-    assert!(size == 33);
+    assert_eq!(size, 64);
 }
 
 #[test]
@@ -22,7 +22,7 @@ fn get_client_name() {
     let client = JackClient::open(name,jack::JackNullOption);
     let get_name = client.get_name();
     client.close();
-    assert!(get_name.as_slice() == name);
+    assert_eq!(get_name, name);
 }
 
 #[test]
@@ -40,17 +40,16 @@ fn port_test() {
                                     jack::JACK_DEFAULT_AUDIO_TYPE,
                                     jack::JackPortIsOutput | jack::JackPortIsTerminal,
                                     0);
-    assert!(port.name().as_slice() == "port_test:test_port");
-    assert!(port.short_name().as_slice() == "test_port");
+    assert_eq!(port.name(), "port_test:test_port");
+    assert_eq!(port.short_name(), "test_port");
     assert!(port.flags() == jack::JackPortIsTerminal | jack::JackPortIsOutput);
-    assert!(port.get_type().as_slice() == jack::JACK_DEFAULT_AUDIO_TYPE);
+    assert_eq!(port.get_type(), jack::JACK_DEFAULT_AUDIO_TYPE);
     assert!(client.port_is_mine(port));
-    assert!(port.connected() == 0);
+    assert_eq!(port.connected(), 0);
     client.unregister_port(&port);
     assert!(client.close());
 }
 
-#[test]
 fn port_connect_test() {
     let client = JackClient::open("port_connect_test",jack::JackNoStartServer);
     let in_port = client.register_port("input_test",
@@ -71,20 +70,20 @@ fn port_connect_test() {
         Err(s) => panic!(s)
     }
 
-    assert!(in_port.connected() == 1);
-    assert!(out_port.connected() == 1);
+    assert_eq!(in_port.connected(), 1);
+    assert_eq!(out_port.connected(), 1);
 
     let conns = in_port.get_connections();
-    assert!(conns[0].as_slice() == "port_connect_test:output_test");
+    assert_eq!(conns[0], "port_connect_test:output_test");
 
     assert!(client.disconnect("port_connect_test:output_test",
                               "port_connect_test:input_test"));
 
-    assert!(in_port.connected() == 0);
-    assert!(out_port.connected() == 0);
+    assert_eq!(in_port.connected(), 0);
+    assert_eq!(out_port.connected(), 0);
 
     let noconns = in_port.get_connections();
-    assert!(noconns.len() == 0);
+    assert_eq!(noconns.len(), 0);
 
     assert!(client.close());
 }
@@ -93,7 +92,7 @@ fn port_connect_test() {
 
 #[test]
 fn port_type_size() {
-    assert!(JackPort::type_size() == 32); // Might fail if this changes
+    assert_eq!(JackPort::type_size(), 32); // Might fail if this changes
 }
 
 #[test]
@@ -105,12 +104,12 @@ fn port_alias() {
                                        0);
     assert!(in_port.set_alias("alias1"));
     let aliases = in_port.get_aliases();
-    assert!(aliases.len() == 1);
-    assert!(aliases[0].as_slice() == "alias1");
+    assert_eq!(aliases.len(), 1);
+    assert_eq!(aliases[0], "alias1");
     assert!(in_port.set_alias("alias2"));
     let aliases2 = in_port.get_aliases();
-    assert!(aliases2.len() == 2);
-    assert!(aliases2[0].as_slice() == "alias1");
-    assert!(aliases2[1].as_slice() == "alias2");
+    assert_eq!(aliases2.len(), 2);
+    assert_eq!(aliases2[0], "alias1");
+    assert_eq!(aliases2[1], "alias2");
     assert!(client.close());
 }

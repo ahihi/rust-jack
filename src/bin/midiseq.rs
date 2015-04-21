@@ -1,5 +1,5 @@
-#![feature(collections,core,io,env,rustc_private,std_misc)]
-
+#![feature(collections)]
+#![feature(convert)]
 extern crate collections;
 extern crate getopts;
 extern crate jack;
@@ -7,9 +7,7 @@ extern crate jack;
 
 use jack::{JackNframesT,JackClient};
 use std::env::args;
-use std::old_io::timer;
 use std::str::FromStr;
-use std::time::duration::Duration;
 
 fn print_usage() {
 	  println!("usage: midiseq name nsamp [startindex note nsamp] ...... [startindex note nsamp]");
@@ -36,7 +34,7 @@ fn process(nframes: JackNframesT, data:* mut CallbackData) -> isize {
     let midi_buf = cbd.port.get_midi_buffer(nframes);
     midi_buf.clear_buffer();
 
-    for i in range(0,nframes) {
+    for i in 0..nframes {
         for note in cbd.notes.iter() {
             if note.start == cbd.loop_index {
                 let event = midi_buf.reserve_event(i,3);
@@ -63,7 +61,7 @@ fn process(nframes: JackNframesT, data:* mut CallbackData) -> isize {
 
 
 fn get_nframes_arg(arg: &collections::string::String) -> JackNframesT {
-    FromStr::from_str(arg.as_slice()).unwrap()
+    FromStr::from_str(arg.as_str()).unwrap()
 }
 
 fn main() {
@@ -77,15 +75,15 @@ fn main() {
         return;
     }
 
-    let client = JackClient::open(args[1].as_slice(), jack::JackNullOption);
+    let client = JackClient::open(args[1].as_str(), jack::JackNullOption);
     let outport = client.register_port("out",jack::JACK_DEFAULT_MIDI_TYPE, jack::JackPortIsOutput, 0);
 
     let num_notes = (args.len()-3)/3;
     let mut notes = Vec::with_capacity(num_notes);
 
-     for i in range(0,num_notes) {
+     for i in 0..num_notes {
          let start = get_nframes_arg(&args[3 + 3*i]);
-         let freq:u8 = FromStr::from_str(args[4 + 3*i].as_slice()).unwrap();
+         let freq:u8 = FromStr::from_str(args[4 + 3*i].as_str()).unwrap();
          let length = get_nframes_arg(&args[5 + 3*i]);
          notes.push(Note {
              freq: freq,
@@ -108,7 +106,8 @@ fn main() {
     }
 
     loop {
-        timer::sleep(Duration::minutes(1));
+        // sleep one minute on the main thread keeping the client open
+        std::thread::sleep_ms(60 * 1000);
     }
 }
 
