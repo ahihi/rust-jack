@@ -1,5 +1,4 @@
 #![allow(non_upper_case_globals)]
-// #![feature(collections,core,hash,libc,rustc_private,std_misc)]
 #[macro_use] extern crate bitflags;
 
 //#[crate_type = "lib"]
@@ -100,6 +99,9 @@ extern {
     fn jack_activate(client: *mut jack_client_t) -> libc::c_int;
     fn jack_deactivate(client: *mut jack_client_t) -> libc::c_int;
     fn jack_get_sample_rate(client: *mut jack_client_t) -> libc::c_uint;
+    fn jack_get_buffer_size(client: *mut jack_client_t) -> libc::c_uint;
+    fn jack_cpu_load(client: *mut jack_client_t) -> libc::c_float;
+    fn jack_set_buffer_size(client: *mut jack_client_t, nframes: libc::c_uint) -> libc::c_int;
     fn jack_set_process_callback(client: *mut jack_client_t, callback: JackProcessCallback<libc::c_void>, arg: *const libc::c_void) -> libc::c_int;
     fn jack_connect(client: *mut jack_client_t, source_port: *const libc::c_char, destination_port: *const libc::c_char) -> libc::c_int;
     fn jack_disconnect(client: *mut jack_client_t, source_port: *const libc::c_char, destination_port: *const libc::c_char) -> libc::c_int;
@@ -303,7 +305,25 @@ impl JackClient {
             jack_get_sample_rate(self.client)
         }
     }
-
+    
+    pub fn get_buffer_size(&self) -> JackNframesT {
+        unsafe {
+            jack_get_buffer_size(self.client)
+        }
+    }
+    
+    pub fn set_buffer_size(&self, nframes: JackNframesT) -> bool {
+        unsafe {
+            jack_set_buffer_size(self.client, nframes) == 0
+        }
+    }
+    
+    pub fn cpu_load(&self) -> f32 {
+        unsafe {
+            jack_cpu_load(self.client)
+        }
+    }
+    
     pub fn set_process_callback<T>(&self, callback: JackProcessCallback<T>, arg: *mut T) -> bool {
         unsafe {
             //jack_set_process_callback(self.client,callback as JackProcessCallback<libc::c_void>,arg as *const libc::c_void) == 0
