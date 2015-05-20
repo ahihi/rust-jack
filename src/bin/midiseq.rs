@@ -1,6 +1,3 @@
-#![feature(collections)]
-#![feature(convert)]
-extern crate collections;
 extern crate getopts;
 extern crate jack;
 
@@ -60,8 +57,8 @@ fn process(nframes: JackNframesT, data:* mut CallbackData) -> isize {
 }
 
 
-fn get_nframes_arg(arg: &collections::string::String) -> JackNframesT {
-    FromStr::from_str(arg.as_str()).unwrap()
+fn get_nframes_arg(arg: &String) -> JackNframesT {
+    FromStr::from_str(arg).unwrap()
 }
 
 fn main() {
@@ -75,7 +72,7 @@ fn main() {
         return;
     }
 
-    let client = JackClient::open(args[1].as_str(), jack::JackNullOption);
+    let client = JackClient::open(&args[1], jack::JackNullOption);
     let outport = client.register_port("out",jack::JACK_DEFAULT_MIDI_TYPE, jack::JackPortIsOutput, 0);
 
     let num_notes = (args.len()-3)/3;
@@ -83,7 +80,7 @@ fn main() {
 
      for i in 0..num_notes {
          let start = get_nframes_arg(&args[3 + 3*i]);
-         let freq:u8 = FromStr::from_str(args[4 + 3*i].as_str()).unwrap();
+         let freq:u8 = FromStr::from_str(&args[4 + 3*i]).unwrap();
          let length = get_nframes_arg(&args[5 + 3*i]);
          notes.push(Note {
              freq: freq,

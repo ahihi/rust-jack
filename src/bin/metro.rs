@@ -1,4 +1,3 @@
-#![feature(convert)]
 extern crate getopts;
 extern crate jack;
 
@@ -6,7 +5,6 @@ extern crate jack;
 use jack::{JackNframesT,JackClient};
 use getopts::{Options};
 use std::env::args;
-use std::num::Float;
 use std::str::FromStr;
 use std::env;
 
@@ -86,7 +84,7 @@ fn get_numeric_arg<T: PartialOrd + std::str::FromStr>
 {
     match matches.opt_str(opt) {
         Some(d) => {
-            match FromStr::from_str(d.as_str()) {
+            match FromStr::from_str(&d) {
                 Ok(v) => {
                     let t:T = v;
                     if (min.is_some() && t < min.unwrap()) ||
@@ -128,7 +126,7 @@ fn main() {
     };
 
     if matches.opt_present("h") {
-        print_usage(program.as_str(), &opts);
+        print_usage(&program, &opts);
         return;
     }
 
