@@ -2,7 +2,8 @@
 #+OPTIONS: toc:1 ^:nil num:nil
 #+HTML_HEAD: <style type="text/css">body { background-color:#B2B6B9} .outline-3 {margin-left:10pt} .outline-4 {margin-left: 20pt}</style>
 
-* jack.h [41/75] [54%]
+* jack.h [44/75] [59%] 
+
 ** DONE jack_client_open (const char *client_name, jack_options_t options, jack_status_t *status,...) JACK_OPTIONAL_WEAK_EXPORT
 ** DONE jack_client_close (jack_client_t *client) JACK_OPTIONAL_WEAK_EXPORT
 ** DONE jack_client_name_size (void) JACK_OPTIONAL_WEAK_EXPORT
@@ -31,10 +32,10 @@
 ** TODO jack_set_xrun_callback (jack_client_t *, JackXRunCallback xrun_callback, void *arg) JACK_OPTIONAL_WEAK_EXPORT
 ** TODO jack_set_latency_callback (jack_client_t *, JackLatencyCallback latency_callback, void *) JACK_WEAK_EXPORT
 ** TODO jack_set_freewheel (jack_client_t *client, int onoff) JACK_OPTIONAL_WEAK_EXPORT
-** TODO jack_set_buffer_size (jack_client_t *client, jack_nframes_t nframes) JACK_OPTIONAL_WEAK_EXPORT
+** DONE jack_set_buffer_size (jack_client_t *client, jack_nframes_t nframes) JACK_OPTIONAL_WEAK_EXPORT
 ** DONE jack_get_sample_rate (jack_client_t *) JACK_OPTIONAL_WEAK_EXPORT
-** TODO jack_get_buffer_size (jack_client_t *) JACK_OPTIONAL_WEAK_EXPORT
-** TODO jack_cpu_load (jack_client_t *client) JACK_OPTIONAL_WEAK_EXPORT
+** DONE jack_get_buffer_size (jack_client_t *) JACK_OPTIONAL_WEAK_EXPORT
+** DONE jack_cpu_load (jack_client_t *client) JACK_OPTIONAL_WEAK_EXPORT
 ** DONE jack_port_register (jack_client_t *client, const char *port_name, const char *port_type, unsigned long flags, unsigned long buffer_size) JACK_OPTIONAL_WEAK_EXPORT
 ** DONE jack_port_unregister (jack_client_t *, jack_port_t *) JACK_OPTIONAL_WEAK_EXPORT
 ** DONE jack_port_get_buffer (jack_port_t *, jack_nframes_t) JACK_OPTIONAL_WEAK_EXPORT
