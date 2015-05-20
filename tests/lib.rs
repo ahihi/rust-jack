@@ -41,6 +41,7 @@ fn buffer_size_test() {
     let actual_new_size = client.get_buffer_size();
     assert_eq!(actual_new_size, new_size);
     assert!(client.set_buffer_size(orig_size));
+    assert!(client.close());
 }
 
 #[test]
@@ -48,6 +49,7 @@ fn cpu_load_test() {
     let client = JackClient::open("cpu_load_test", jack::JackNullOption);
     let load = client.cpu_load();
     assert!(0.0 < load && load <= 100.0);
+    assert!(client.close());
 }
 
 #[test]
