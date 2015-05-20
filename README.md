@@ -1,4 +1,4 @@
-# rust-jack [![Build Status](https://travis-ci.org/nicklan/rust-jack.svg?branch=master)](https://travis-ci.org/nicklan/rust-jack)
+# rust-jack
 
 This is a wrapper in Rust around the c api for
 [Jack](http://jackaudio.org/).  It includes some example clients in
@@ -10,7 +10,7 @@ welcome!
 
 You can view a list of which functions are implemented and which
 aren't
-[here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/nicklan/rust-jack/master/funcs.html)
+[here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/ahihi/rust-jack/master/funcs.html)
 
 The Jack api can be found
 [here](http://jackaudio.org/files/docs/html/index.html).
@@ -22,7 +22,7 @@ Use [Cargo](http://doc.crates.io/) and add the following to your Cargo.toml
 
 ```
 [dependencies.jack]
-git = "https://github.com/nicklan/rust-jack.git"
+git = "https://github.com/ahihi/rust-jack.git"
 ```
 
 

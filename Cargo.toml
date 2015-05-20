@@ -3,8 +3,8 @@
 name = "rust-jack"
 description = "JACK Audio Connection Kit bindings for Rust"
 version = "0.0.1"
-authors = ["Nick Lanham <nick@afternight.org>"]
-repository = "https://github.com/nicklan/rust-jack"
+authors = ["Nick Lanham <nick@afternight.org>", "Miranda Kastemaa <miranda@foldplop.com>"]
+repository = "https://github.com/ahihi/rust-jack"
 readme = "README.md"
 keywords = ["jack", "audio", "music", "sound"]
 license = "LGPL-2.1"
@@ -13,6 +13,6 @@ license = "LGPL-2.1"
 name="jack"
 
 [dependencies]
-libc = "0.1.6"
-bitflags = "0.1.1"
-getopts = "0.2.9"
+libc = "0.1"
+bitflags = "0.1"
+getopts = "0.2"
