@@ -1,5 +1,3 @@
-#![feature(core,libc)]
-
 extern crate libc;
 extern crate jack;
 use jack::{JackClient,JackPort};
@@ -34,6 +32,18 @@ fn activate() {
 }
 
 #[test]
+fn buffer_size_test() {
+    let client = JackClient::open("get_set_buffer_size", jack::JackNullOption);
+    let orig_size = client.get_buffer_size();
+    assert!(0 < orig_size);
+    let new_size = orig_size / 2;
+    assert!(client.set_buffer_size(new_size));
+    let actual_new_size = client.get_buffer_size();
+    assert_eq!(actual_new_size, new_size);
+    assert!(client.set_buffer_size(orig_size));
+}
+
+#[test]
 fn port_test() {
     let client = JackClient::open("port_test",jack::JackNullOption);
     let port = client.register_port("test_port",
@@ -50,6 +60,7 @@ fn port_test() {
     assert!(client.close());
 }
 
+#[test]
 fn port_connect_test() {
     let client = JackClient::open("port_connect_test",jack::JackNoStartServer);
     let in_port = client.register_port("input_test",
